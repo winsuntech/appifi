@@ -4,6 +4,11 @@ var http = require("http"),
     fs = require("fs")
 
 http.createServer(function(request, response) {
+    if (path.normalize(decodeURI(request.url)) !== decodeURI(request.url)) {
+        response.statusCode = 403;
+        response.end();
+        return;
+    }
 
   var uri = url.parse(request.url).pathname
   var filename = path.join(process.cwd(), 'coverage', 'lcov-report', uri)
